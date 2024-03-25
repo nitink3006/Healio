@@ -1,7 +1,7 @@
 import {useEffect, useRef , useContext} from 'react'
 import logo from "../../assets/images/logo.png"
 import { NavLink, Link } from 'react-router-dom'
-import userImg from "../../assets/images/avatar-icon.png"
+//mport userImg from "../../assets/images/avatar-icon.png"
 import {BiMenu} from "react-icons/bi";
 import { authContext } from '../../context/AuthContext';
 
@@ -73,21 +73,18 @@ const Header = () => {
             
             {/*----------------Nav Right--------------*/}
             <div className="flex items-center gap-4">
-                {
-                    token && user ? <div className="hidden">
-                    <Link to={`$role == 'doctor' ? '/doctor/profule/me' : '/users/profile/me}`}>
+                { token && user ?  <div>
+                    <Link to={`$role == 'doctor' ? '/doctor/profile/me' : '/users/profile/me}`}>
                         <figure className="w-[35px] h-[35px] rounded-full cursor-pointer">
                             <img src={user?.photo} className="w-full rounded-full" alt="" />
                         </figure>
-
                     </Link>
-            </div> : <Link to="/login">
+                    </div> 
+                    : <Link to="/login">
                     <button className="bg-primaryColor py-2 px-6 text-white font-[600] h-[44px] flex items-center justify-center rounded-[50px]">Login</button>
-                </Link>
+                    </Link>
                 }
-
-                <h1>{user?.name}</h1>
-
+                
                 <span className="md:hidden" onClick={toggleMenu} >
                     <BiMenu className="w-6 h-6 cursor-pointer" />
                 </span>

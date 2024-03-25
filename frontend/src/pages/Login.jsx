@@ -3,6 +3,7 @@ import { Link , useNavigate } from "react-router-dom";
 import { BASE_URL } from "../config";
 import {toast} from "react-toastify";
 import { authContext } from "../context/AuthContext.jsx";
+import HashLoader from "react-spinners/HashLoader.js";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -27,7 +28,7 @@ const Login = () => {
     setLoading(true)
 
     try{
-        const res = await fetch(`${BASE_URL}/api/v1/auth/login`,{
+        const res = await fetch(`${BASE_URL}/auth/login`,{
             method:'post',
             headers:{
                 'Content-Type':'application/json'
@@ -90,7 +91,7 @@ const Login = () => {
               id="password"
               placeholder="Enter Your Password"
               name="password"
-              value={formData.email} // Typo fixed, should be formData.password
+              value={formData.password} 
               onChange={handleInputChange}
               className="w-full px-4 py-3 border-b border-solid border-[#0066ff61] focus:outline-none focus:border-b-primaryColor text-[22px] leading-7 text-headingColor placeholder:text-textColor cursor-pointer"
               required
@@ -101,7 +102,7 @@ const Login = () => {
           <button 
           type="submit" 
           className="w-full bg-primaryColor text-white text-[18px] leading-[30px] rounded-lg px-4 py-3">
-            Login
+            { loading ? <HashLoader size={25} color="#fff" /> : 'Login'}
           </button>
           </div>
 
