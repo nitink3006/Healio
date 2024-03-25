@@ -37,7 +37,7 @@ export const getSingleDoctor = async (req, res) => {
     const doctor = await Doctor.findById(id).populate('reviews').select("-password");
     res.status(200).json({ success: true, message: 'Doctor Found', data: doctor });
   } catch (err) {
-    //console.error(err); // Log the error for debugging purposes
+    console.error(err); // Log the error for debugging purposes
     res.status(404).json({ success: false, message: 'No Doctor Found' });
   }
 };
@@ -69,7 +69,7 @@ export const getAllDoctor = async (req, res) => {
 
 
 
-export const getDoctorProfile = async(req,res)=>{
+/*export const getDoctorProfile = async(req,res)=>{
     const doctorId = req.userId
 
     try{
@@ -87,4 +87,16 @@ export const getDoctorProfile = async(req,res)=>{
     } catch(err){
         res.status(500).json({ success: false, message: 'Something went wrong, cannot get' });
     }
+};*/
+
+export const getDoctorProfile = async (req, res) => {
+  try {
+    const doctors = await Doctor.find().populate('reviews').select("-password");
+    const appointments = await Booking.find()
+    res.status(200).json({ success: true, message: 'Doctors Found', data: doctors, appointments });
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ success: false, message: 'Error fetching doctors' });
+  }
 };
+
