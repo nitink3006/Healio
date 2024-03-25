@@ -67,7 +67,6 @@ const Profile = (doctorData) => {
                 },
                 body:JSON.stringify(formData)
             })
-
             const result = await res.json()
             if(!res.ok){
                 throw Error(result.message)
@@ -81,14 +80,34 @@ const Profile = (doctorData) => {
     };
 
     //reusable for adding
-    const addItem = (key,item )=>{
-        setFormData(prevFormData => ({...prevFormData,[key]:[...prevFormData[key],item]}))
-    }
+    /*const addItem = (key,item )=>{
+        setFormData(prevFormData => ({ ...prevFormData,[key]:[...prevFormData[key],item]}));
+    };*/
+    const addItem = (key, item) => {
+  setFormData(prevFormData => ({
+    ...prevFormData,
+    [key]: prevFormData[key] ? [...prevFormData[key], item] : [item],
+  }));
+};
+
 
     //reusable delete
-    const deleteItem = (key,index) =>{
+    /*const deleteItem = (key,index) =>{
         setFormData(prevFormData => ({...prevFormData,[key]:prevFormData[key].filter((_,i) => i != index)}))
+    }*/
+    const deleteItem = (key, index) => {
+  setFormData(prevFormData => {
+    if (prevFormData[key]) {
+      return {
+        ...prevFormData,
+        [key]: prevFormData[key].filter((_, i) => i !== index),
+      };
+    } else {
+      return prevFormData; // Do nothing if the key doesn't exist
     }
+  });
+};
+
 
     //reusable input change
     const handleReusableInputChangeFunc = (key, index, event)=>{
@@ -117,10 +136,18 @@ const Profile = (doctorData) => {
         handleReusableInputChangeFunc('qualifications', index,event)
     }
 
-    const deleteQualification = (e,index)=>{
+    /*const deleteQualification = (e,index)=>{
         e.preventDefault()
         deleteItem('qualifictaions', index)
-    }
+    }*/
+
+    const deleteQualification = (e, index) => {
+  e.preventDefault();
+  setFormData(prevFormData => ({
+    ...prevFormData,
+    qualifications: prevFormData.qualifications.filter((_, i) => i !== index),
+  }));
+};
 
 
 
@@ -269,7 +296,7 @@ const Profile = (doctorData) => {
                         </div>
                     </div>
 
-                    <button onClick={ e => deleteQualification(e,index)} className="bg-red-600 p-2 rounded-full text-white text-[16px] mt-2 mb-[30px] cursor-pointer">
+                    <button onClick={e => deleteQualification(e,index)} className="bg-red-600 p-2 rounded-full text-white text-[16px] mt-2 mb-[30px] cursor-pointer">
                         <AiOutlineDelete/>
                     </button>
                 </div>
@@ -280,6 +307,8 @@ const Profile = (doctorData) => {
                 Add Qualification
             </button>
         </div>
+
+
         <div className="mb-5">
             <p className="form__label">Experiences*</p>
           {formData.experiences?.map((item,index) => <div key={index}>
@@ -287,22 +316,22 @@ const Profile = (doctorData) => {
                 <div className="grid grid-cols-2 gap-5">
                     <div>
                         <p className="form__label">Starting Date</p>
-                        <input type="date" name="startingDate" value={item.startingDate} className="form__input" onClick={ e => handleExperienceChange(e,index)} />
+                        <input type="date" name="startingDate" value={item.startingDate} className="form__input" onChange={e => handleExperienceChange(e,index)} />
                         </div>
                         <div>
                         <p className="form__label">Ending Date</p>
-                        <input type="date" name="endingDate" value={item.endingDate} className="form__input" onClick={e =>handleExperienceChange(e,index)}/>
+                        <input type="date" name="endingDate" value={item.endingDate} className="form__input" onChange={e => handleExperienceChange(e,index)}/>
                         </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-5">
                     <div>
                         <p className="form__label">Position*</p>
-                        <input type="text" name="position" value={item.position}  placeholder="Position" className="form__input"onClick={e=> handleExperienceChange(e,index)} />
+                        <input type="text" name="position" value={item.position}  placeholder="Position" className="form__input" onChange={e => handleExperienceChange(e,index)} />
                         </div>
                         <div>
                         <p className="form__label">Hospital*</p>
-                        <input type="text" name="hospital" placeholder="Hospital Name" value={item.hospital} className="form__input" onClick={e =>handleExperienceChange(e,index)} />
+                        <input type="text" name="hospital" placeholder="Hospital Name" value={item.hospital} className="form__input" onChange={e => handleExperienceChange(e,index)} />
                         </div>
                     </div>
 
@@ -325,7 +354,7 @@ const Profile = (doctorData) => {
                 <div className="grid grid-cols-2 md:grid-cols-4 mb-[30px] gap-5">
                     <div>
                         <p className="form__label">Day*</p>
-                        <select name="day" value={item.day} className="form__input py-3.5 " onClick={e =>handleTimeSlotChange(e,index)}>
+                        <select name="day" value={item.day} className="form__input py-3.5 " onChange={e =>handleTimeSlotChange(e,index)}>
                             <option value="">Select</option>
                             <option value="saturday">Saturday</option>
                             <option value="sunday">Sunday</option>
@@ -338,11 +367,11 @@ const Profile = (doctorData) => {
                         </div>
                         <div>
                         <p className="form__label">Starting Time*</p>
-                        <input type="date" name="startingTime" value={item.startingTime} className="form__input"  onClick={e =>handleTimeSlotChange(e,index)} />
+                        <input type="time" name="startingTime" value={item.startingTime} className="form__input"  onChange={e =>handleTimeSlotChange(e,index)} />
                         </div>
                         <div>
                         <p className="form__label">Ending Time*</p>
-                        <input type="date" name="endingTime" value={item.endingTime} className="form__input"  onClick={e =>handleTimeSlotChange(e,index)}  />
+                        <input type="time" name="endingTime" value={item.endingTime} className="form__input"  onChange={e =>handleTimeSlotChange(e,index)}  />
                         </div>
                         <div className="flex items-center">
                         <button onClick={e => deleteTimeSlot(e,index)} className="bg-red-600 p-2 rounded-full text-white text-[18px] cursor-pointer mt-6">

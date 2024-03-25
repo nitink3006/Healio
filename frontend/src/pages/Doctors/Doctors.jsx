@@ -7,7 +7,7 @@ import { BASE_URL } from './../../config';
 import useFetchData from './../../hooks/useFetchData';
 import Loading from '../../components/Loader/Loading';
 import Error from '../../components/Error/Error';
-
+import { useEffect } from 'react';
 
 const Doctors = () => {
   const [query,setQuery]= useState('');
@@ -25,7 +25,7 @@ const Doctors = () => {
     return ()=> clearTimeout(timeout)
   },[query])
 
-  const { data :doctors,
+  const { data : doctors,
      loading, 
      error
     } = useFetchData(`${BASE_URL}/doctors?query=${query}`);
@@ -36,6 +36,7 @@ const Doctors = () => {
   return( <>
   <section className="bg-[#fff9ea] ">
     <div className="container text-center">
+      {error && <p>Error fetching doctors: {error.message}</p>}
         <br></br>
         <br></br>
         <h2 className="heading">Find a Doctor</h2>

@@ -6,7 +6,7 @@ import { BsArrowRight } from 'react-icons/bs';
 
 const DoctorCard = ({doctor}) => {
 
-  const {name,avgRating,totalRating,photo,specialization}=doctor;
+  const {name,avgRating,totalRating,photo,specialization,experiences}=doctor;
   return (
     <div className="p-3 lg:p-5">
         <div>

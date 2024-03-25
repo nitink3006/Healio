@@ -11,7 +11,7 @@ export const updateDoctor = async (req, res) => {
     const updatedDoctor = await Doctor.findByIdAndUpdate(id, { $set: req.body }, { new: true });
     res.status(200).json({ success: true, message: 'Successfully updated', data: updatedDoctor });
   } catch (err) {
-    //console.error(err); // Log the error for debugging purposes
+    console.error(err); 
     res.status(500).json({ success: false, message: 'Failed to update' });
   }
 };
@@ -37,7 +37,7 @@ export const getSingleDoctor = async (req, res) => {
     const doctor = await Doctor.findById(id).populate('reviews').select("-password");
     res.status(200).json({ success: true, message: 'Doctor Found', data: doctor });
   } catch (err) {
-    console.error(err); // Log the error for debugging purposes
+    console.error(err); 
     res.status(404).json({ success: false, message: 'No Doctor Found' });
   }
 };
@@ -63,6 +63,7 @@ export const getAllDoctor = async (req, res) => {
     //const doctors = await Doctor.find({}).select("-password");
     res.status(200).json({ success: true, message: 'Doctor Found', data: doctors });
   } catch (err) {
+    console.error(err)
     res.status(404).json({ success: false, message: 'Not Found' });
   }
 };
