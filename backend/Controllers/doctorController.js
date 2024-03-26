@@ -3,8 +3,9 @@
 
 import Booking from "../models/BookingSchema.js";
 import Doctor from "../models/DoctorSchema.js";
+import mongoose from "mongoose";
 
-export const updateDoctor = async (req, res) => {
+/*export const updateDoctor = async (req, res) => {
   const id = req.params.id;
 
   try {
@@ -14,7 +15,75 @@ export const updateDoctor = async (req, res) => {
     console.error(err); 
     res.status(500).json({ success: false, message: 'Failed to update' });
   }
+};*/
+
+
+/*export const updateDoctor = async (req, res) => {
+  const { id } = req.params; // Extract ID using destructuring
+
+  // Validate ID (optional but recommended)
+  if (!id) {
+    return res.status(400).json({ success: false, message: 'Invalid doctor ID' });
+  }
+
+  try {
+    // Ensure `id` is a valid ObjectId
+   const objectId = new mongoose.Types.ObjectId(id);  // Correct usage
+
+
+    const updatedDoctor = await Doctor.findByIdAndUpdate(
+      objectId,
+      { $set: req.body },
+      { new: true }
+    );
+
+    // Check if doctor found
+    if (!updatedDoctor) {
+      return res.status(404).json({ success: false, message: 'Doctor not found' });
+    }
+
+    res.status(200).json({ success: true, message: 'Successfully updated', data: updatedDoctor });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: 'Failed to update doctor' });
+  }
+};*/
+
+export const updateDoctor = async (req, res) => {
+  const { id } = req.params.id;
+
+  /*if (!id) {
+    return res.status(400).json({ success: false, message: 'Invalid doctor ID' });
+  }*/
+
+  try {
+    // Ensure `id` is a valid ObjectId
+    //const objectId = new mongoose.Types.ObjectId(id);
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+  return res.status(400).json({ success: false, message: 'Invalid doctor ID' });
+    }
+
+
+    // Check if doctor exists before updating
+    const existingDoctor = await Doctor.findById(objectId);
+    if (!existingDoctor) {
+      return res.status(404).json({ success: false, message: 'Doctor not found' });
+    }
+
+    // Update the doctor
+    const updatedDoctor = await Doctor.findByIdAndUpdate(
+      objectId,
+      { $set: req.body },
+      { new: true }
+    );
+
+    res.status(200).json({ success: true, message: 'Successfully updated', data: updatedDoctor });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: 'Failed to update doctor' });
+  }
 };
+
 
 
 export const deleteDoctor = async (req, res) => {
@@ -24,7 +93,7 @@ export const deleteDoctor = async (req, res) => {
     await Doctor.findByIdAndDelete(id);
     res.status(200).json({ success: true, message: 'Successfully deleted' });
   } catch (err) {
-    //console.error(err); // Log the error for debugging purposes
+    console.error(err);
     res.status(500).json({ success: false, message: 'Failed to delete' });
   }
 };

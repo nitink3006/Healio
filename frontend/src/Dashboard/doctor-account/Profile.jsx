@@ -56,14 +56,17 @@ const Profile = (doctorData) => {
     setFormData({...formData, photo:data?.url})
   };
 
-    const updateProfileHandler = async e => {
+  console.log('doctorData:', doctorData);
+
+    const updateProfileHandler = async (e,doctorData) => {
         e.preventDefault();
+
         try{
             const res = await fetch (`${BASE_URL}/doctors/${doctorData._id}`,{
                 method:'PUT',
                 headers:{
                     'content-type':'application/json',
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${token}`
                 },
                 body:JSON.stringify(formData)
             })
