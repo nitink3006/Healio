@@ -11,6 +11,7 @@ import Appointments from './Appointments'
 
 const Dashboard = () => {
 
+    
 
   const { data, loading, error } = useGetProfile(
     `${BASE_URL}/doctors/profile/me`
@@ -54,7 +55,7 @@ const Dashboard = () => {
     </div>
           )}
 
-  <div className="mt-8">
+  {<div className="mt-8">
 
     {tab == 'overview' && <div>
       <div className="flex items-center gap-4 mb-10">
@@ -93,8 +94,12 @@ const Dashboard = () => {
 
     {tab == 'appointments' && <Appointments appointments={data.appointments} /> }
     {tab == 'settings' && <Profile doctorData={data}/>}
+    
 
-    </div>
+    </div>}
+
+    
+
 
 </div>
 

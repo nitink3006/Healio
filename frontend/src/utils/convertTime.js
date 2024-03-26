@@ -1,9 +1,10 @@
 const convertTime = time =>{
 
     //timeParts return an array
+
     const timeParts = time.split(':')
     let hours = parseInt(timeParts[0])
-    const minutes = parseUnt(timeParts[1])
+    const minutes = parseInt(timeParts[1])
 
     let meridiem = "am";
 

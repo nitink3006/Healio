@@ -13,7 +13,7 @@ const useFetchData = url => {
       setLoading(true); // Indicate loading state
 
       try {
-        const res = await fetch(url, {
+        const res = await fetch( url, {
           headers: { Authorization: `Bearer ${token}` },
         });
 

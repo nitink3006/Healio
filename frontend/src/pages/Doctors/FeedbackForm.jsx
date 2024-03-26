@@ -24,11 +24,11 @@ const FeedbackForm = () => {
                 setLoading(false);
                 return toast.error('Rating & Review Fields are required')
             }
-                const res = await fetch (`${BASE_URL}/doctors/${id}/reviews`,{
+        const res = await fetch (`${BASE_URL}/doctors/${id}/reviews`, {
                     method:'post',
                     headers:{
                         'Content-Type' : 'application/json',
-                        Authorization : `Bearer ${token}`
+                        Authorization: `Bearer ${token}`,
                     },
                     body:JSON.stringify({rating,reviewText})
                 })
@@ -40,8 +40,10 @@ const FeedbackForm = () => {
 
                 setLoading(false)
                 toast.success(result.message)
-        }catch{err}{
-            setLoading(false)
+        }catch (err) {
+
+            console.error(err);
+            setLoading(false);
             toast.error(err.message);
         }
 
@@ -56,7 +58,7 @@ const FeedbackForm = () => {
 
             <div>
                 {[...Array(5).keys()].map((_,index)=>{
-                    index+=1;
+                    index = index+1;
                     return(
                         <button 
                         key={index} 

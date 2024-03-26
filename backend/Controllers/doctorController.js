@@ -49,17 +49,17 @@ import mongoose from "mongoose";
   }
 };*/
 
-export const updateDoctor = async (req, res) => {
+/*export const updateDoctor = async (req, res) => {
   const { id } = req.params.id;
 
   /*if (!id) {
     return res.status(400).json({ success: false, message: 'Invalid doctor ID' });
-  }*/
+  }
 
   try {
     // Ensure `id` is a valid ObjectId
-    //const objectId = new mongoose.Types.ObjectId(id);
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    const objectId = new mongoose.Types.ObjectId.isValid(id);
+    if (!objectId) {
   return res.status(400).json({ success: false, message: 'Invalid doctor ID' });
     }
 
@@ -81,6 +81,29 @@ export const updateDoctor = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ success: false, message: 'Failed to update doctor' });
+  }
+};*/
+
+export const updateDoctor = async (req, res) => {
+  try {
+    const { id } = req.params; 
+    const updatedData = req.body;
+    console.log('Received ID:', id);
+  console.log('Received updated data:', updatedData);
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ success: false, message: 'Invalid doctor ID' });
+    }
+
+    const updatedDoctor = await Doctor.findByIdAndUpdate(id, { $set: updatedData }, { new: true });
+    if (!updatedDoctor) {
+      return res.status(404).json({ success: false, message: 'Doctor not found' });
+    }
+
+    res.status(200).json({ success: true, message: 'Doctor profile updated', data: updatedDoctor });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: 'Error updating doctor profile' });
   }
 };
 

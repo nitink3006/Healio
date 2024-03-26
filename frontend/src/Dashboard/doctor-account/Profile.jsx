@@ -6,7 +6,7 @@ import { BASE_URL , token} from "../../config";
 import {toast} from 'react-toastify';
 
 const Profile = (doctorData) => {
-
+    const userData = JSON.parse(localStorage.getItem('user'));
   const [formData, setFormData] = useState({
     name: "", 
     email: "",
@@ -56,13 +56,12 @@ const Profile = (doctorData) => {
     setFormData({...formData, photo:data?.url})
   };
 
-  console.log('doctorData:', doctorData);
 
     const updateProfileHandler = async (e,doctorData) => {
         e.preventDefault();
 
         try{
-            const res = await fetch (`${BASE_URL}/doctors/${doctorData._id}`,{
+            const res = await fetch (`${BASE_URL}/doctors/${userData._id}`,{
                 method:'PUT',
                 headers:{
                     'content-type':'application/json',
@@ -214,7 +213,7 @@ const Profile = (doctorData) => {
           <input
             type="text"
             name="email"
-            value={formData.email}
+            value={userData.email}
             onChange={handleInputChange}
             placeholder="Email"
             className="form__input"
