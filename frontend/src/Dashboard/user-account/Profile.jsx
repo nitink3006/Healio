@@ -6,7 +6,7 @@ import uploadImageToCloudinary from "../../utils/uploadCloudinary";
 import {toast} from "react-toastify";
 import HashLoader from 'react-spinners/HashLoader'
 import  {BASE_URL, token}  from "../../config";
-import { set } from "mongoose";
+// import { set } from "mongoose";
 
 
 const Profile = ({user}) => {
