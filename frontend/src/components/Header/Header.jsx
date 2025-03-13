@@ -4,6 +4,9 @@ import { NavLink, Link } from "react-router-dom";
 import { BiMenu } from "react-icons/bi";
 import { authContext } from "../../context/AuthContext";
 
+import useGetProfile from "../../hooks/useFetchData";
+import { BASE_URL } from "../../config";
+
 const navLinks = [
   {
     path: "/home",
@@ -49,6 +52,13 @@ const Header = () => {
   });
 
   const toggleMenu = () => menuRef.current.classList.toggle("show__menu");
+  const {
+    data: userData,
+    loading,
+    error,
+  } = useGetProfile(`${BASE_URL}/users/profile/me`);
+
+  console.log(userData, "userdata");
 
   return (
     <header className="header flex items-center" ref={headerRef}>
@@ -93,7 +103,11 @@ const Header = () => {
                 >
                   {user?.photo ? (
                     <figure className="w-[35px] h-[35px] rounded-full cursor-pointer">
-                      <img src={user?.photo} className="w-full rounded-full" />
+                      <img
+                        src={userData?.photo}
+                        alt={user?.name || "User"}
+                        className="w-full h-full rounded-full object-cover"
+                      />
                     </figure>
                   ) : (
                     <div className="w-[35px] h-[35px] bg-primaryColor rounded-full flex items-center justify-center text-white font-[600] cursor-pointer">
